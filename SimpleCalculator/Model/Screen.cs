@@ -9,11 +9,19 @@ namespace SimpleCalculator.Model
     internal class Screen
     {
         public string Result { get; set; }
-        public string CurrOprator { get; set; }
+        public string CurrBinaryOperator { get; set; }
+        public bool InValidOperation { get; set; }
         public Screen() 
         { 
-            Result = string.Empty;
-            CurrOprator = string.Empty;
+            Result = "0";
+            CurrBinaryOperator = string.Empty;
+            InValidOperation = false;
+        }
+        public Screen(string result, string currBinaryOperator, bool inValidOperation)
+        {
+            Result = result;
+            CurrBinaryOperator = currBinaryOperator;
+            InValidOperation = inValidOperation;
         }
     }
 }

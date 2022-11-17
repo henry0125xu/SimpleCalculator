@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Desktop\\SimpleCalculator\\SimpleCalculator\\SimpleCalculator.csproj": {}
+    "C:\\Users\\User\\Desktop\\Projects\\SimpleCalculator\\SimpleCalculator\\SimpleCalculator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Desktop\\SimpleCalculator\\SimpleCalculator\\SimpleCalculator.csproj": {
+    "C:\\Users\\User\\Desktop\\Projects\\SimpleCalculator\\SimpleCalculator\\SimpleCalculator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Desktop\\SimpleCalculator\\SimpleCalculator\\SimpleCalculator.csproj",
+        "projectUniqueName": "C:\\Users\\User\\Desktop\\Projects\\SimpleCalculator\\SimpleCalculator\\SimpleCalculator.csproj",
         "projectName": "SimpleCalculator",
-        "projectPath": "C:\\Users\\User\\Desktop\\SimpleCalculator\\SimpleCalculator\\SimpleCalculator.csproj",
+        "projectPath": "C:\\Users\\User\\Desktop\\Projects\\SimpleCalculator\\SimpleCalculator\\SimpleCalculator.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Desktop\\SimpleCalculator\\SimpleCalculator\\obj\\",
+        "outputPath": "C:\\Users\\User\\Desktop\\Projects\\SimpleCalculator\\SimpleCalculator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,20 +1,20 @@
 ﻿SimpleCalculator
 1.0.0.0
 
-winexe
+exe
 C#
 .cs
-C:\Users\User\Desktop\SimpleCalculator\SimpleCalculator\obj\Debug\net6.0-windows\
+C:\Users\User\Desktop\Projects\SimpleCalculator\SimpleCalculator\obj\Debug\net6.0-windows\
 SimpleCalculator
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\User\Desktop\SimpleCalculator\SimpleCalculator\App.xaml
+C:\Users\User\Desktop\Projects\SimpleCalculator\SimpleCalculator\App.xaml
 2-1569233156
 
-11353163890
+11-530309465
 194-2004305220
 View\Calculator.xaml;View\ResourceDictionary.xaml;
 
-True
+False
 

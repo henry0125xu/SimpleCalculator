@@ -9,46 +9,27 @@ namespace SimpleCalculator.Utility
 {
     public class RelayCommand : ICommand
     {
-        private Action _execute;
-        private Func<bool> _canExecute;
-
-        public RelayCommand(Action execute) : this(execute, null) { }
-
-        public RelayCommand(Action execute, Func<bool> canExecute)
+        private Action<object> _execute;
+        public RelayCommand(Action<object> execute)
         {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
             _execute = execute;
-            _canExecute = canExecute;
         }
-
-
-        public event EventHandler CanExecuteChanged
-        {
-            add
-            {
-                if (_canExecute != null)
-                {
-                    CommandManager.RequerySuggested += value;
-                }
-            }
-            remove
-            {
-                if (_canExecute != null)
-                {
-                    CommandManager.RequerySuggested -= value;
-                }
-            }
-        }
-
+        
         public bool CanExecute(object parameter)
         {
-            return _canExecute == null ? true : _canExecute();
+            return true;
         }
-
+        public event EventHandler CanExecuteChanged;
         public void Execute(object parameter)
         {
-            _execute();
-        }
+            if(parameter != null)
+            {
+                _execute(parameter);
+            }
+            else
+            {
+                _execute("Hello");
+            }
+        }   
     }
 }

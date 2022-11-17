@@ -17,12 +17,12 @@
     
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Height="80" Width="240" Padding="20, 30, 0, 0" FontSize="20" FontFamily="Arial">111asdas111</TextBlock>
-            <TextBlock Height="80" Width="240" TextAlignment="Right" Padding="0, 30, 30, 0" FontSize="20" FontFamily="Arial">22sdaasd2222</TextBlock>
+            <TextBlock Text="{Binding ScreenData.InValidOperation, Converter={StaticResource InValidOperationConvertor}}" Height="80" Width="240" Padding="20, 30, 0, 0" FontSize="20" FontFamily="Arial" Foreground="Red"/>
+            <TextBlock Text="{Binding ScreenData.CurrBinaryOperator}" Height="80" Width="240" TextAlignment="Right" Padding="0, 30, 30, 0" FontSize="20" FontFamily="Arial"/> 
         </StackPanel>
-        <TextBlock Height="100" TextAlignment="Right" Padding="0, 30, 20, 0" FontSize="40" FontFamily="Arial">trht333333</TextBlock>
-        
-        
+        <TextBlock Text="{Binding ScreenData.Result}" Height="100" TextAlignment="Right" Padding="0, 30, 20, 0" FontSize="40" FontFamily="Arial"/> 
+
+
         <Grid Height="380">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -49,19 +49,19 @@
             <Button Style="{StaticResource ButtonStyle}" Content="x sqrt" Grid.Row="1" Grid.Column="2"/>
             <Button Style="{StaticResource ButtonStyle}" Content="+" Grid.Row="1" Grid.Column="3"/>
 
-            <Button Style="{StaticResource ButtonStyle}" Content="7" Grid.Row="2"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="8" Grid.Row="2" Grid.Column="1"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="9" Grid.Row="2" Grid.Column="2"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="7" Command="{Binding ButtonCommand}" CommandParameter="7" Grid.Row="2"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="8" Command="{Binding ButtonCommand}" CommandParameter="8" Grid.Row="2" Grid.Column="1"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="9" Command="{Binding ButtonCommand}" CommandParameter="9" Grid.Row="2" Grid.Column="2"/>
             <Button Style="{StaticResource ButtonStyle}" Content="-" Grid.Row="2" Grid.Column="3"/>
 
-            <Button Style="{StaticResource ButtonStyle}" Content="4" Grid.Row="3"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="5" Grid.Row="3" Grid.Column="1"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="6" Grid.Row="3" Grid.Column="2"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="4" Command="{Binding ButtonCommand}" CommandParameter="4" Grid.Row="3"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="5" Command="{Binding ButtonCommand}" CommandParameter="5" Grid.Row="3" Grid.Column="1"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="6" Command="{Binding ButtonCommand}" CommandParameter="6" Grid.Row="3" Grid.Column="2"/>
             <Button Style="{StaticResource ButtonStyle}" Content="*" Grid.Row="3" Grid.Column="3"/>
 
-            <Button Style="{StaticResource ButtonStyle}" Content="1" Grid.Row="4"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="2" Grid.Row="4" Grid.Column="1"/>
-            <Button Style="{StaticResource ButtonStyle}" Content="3" Grid.Row="4" Grid.Column="2"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="1" Command="{Binding ButtonCommand}" CommandParameter="1" Grid.Row="4"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="2" Command="{Binding ButtonCommand}" CommandParameter="2" Grid.Row="4" Grid.Column="1"/>
+            <Button Style="{StaticResource ButtonStyle}" Content="3" Command="{Binding ButtonCommand}" CommandParameter="3" Grid.Row="4" Grid.Column="2"/>
             <Button Style="{StaticResource ButtonStyle}" Content="/" Grid.Row="4" Grid.Column="3"/>
 
             <Button Style="{StaticResource ButtonStyle}" Content="+/-" Grid.Row="5"/>
