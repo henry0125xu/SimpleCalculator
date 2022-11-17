@@ -11,35 +11,34 @@ namespace SimpleCalculator.Model
         public string FirstNumber { get; set; }
         public string LastNumber { get; set; }
         public string BinaryOperator { get; set; }
-        public bool HaveDot { get; set; }
         public CalculatorState()
         {
-            FirstNumber = string.Empty;
+            FirstNumber = "0";
             BinaryOperator = string.Empty;
             LastNumber = string.Empty;
-            HaveDot = false;
         }
-        public CalculatorState(string firstNumber, string binaryOperator, string lastNumber, bool haveDot)
+        public CalculatorState(string firstNumber, string binaryOperator, string lastNumber)
         {
             FirstNumber = firstNumber;
             BinaryOperator = binaryOperator;
             LastNumber = lastNumber;     
-            HaveDot = haveDot;
         }
     };
     internal class Calculator
     {
-        public CalculatorState State { get; set; }
-        public Screen ScreenData { get; set; }
+        private CalculatorState _state;
+        public CalculatorState State
+        {
+            get { return _state; }
+            set { _state = value; }
+        }
         public Calculator() 
         {
-            State = new CalculatorState();
-            ScreenData = new Screen();
+            State = new CalculatorState();         
         }
-        public Calculator(CalculatorState state, Screen screenData)
+        public Calculator(CalculatorState state)
         {
             State = state;
-            ScreenData = screenData;
         }
     }
 }
