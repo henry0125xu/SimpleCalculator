@@ -4,7 +4,7 @@
 
     <Style x:Key="ButtonStyle" TargetType="Button">
         <Setter Property="Margin" Value="6" />
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontSize" Value="24"/>
         <Setter Property="FontFamily" Value="Arial"/>
         <Setter Property="Cursor" Value="Hand"/>
 
@@ -31,6 +31,7 @@
         </Style.Triggers>
     </Style>
 
-    <utility:InValidOperationConvertor x:Key="InValidOperationConvertor"/>
+    <utility:ValidityConvertor x:Key="ValidityConvertor"/>
+    <utility:OperatorConvertor x:Key="OperatorConvertor"/>
 
 </ResourceDictionary>

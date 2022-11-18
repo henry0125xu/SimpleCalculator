@@ -1,44 +1,44 @@
-﻿using SimpleCalculator.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleCalculator.Model
-{ 
+{
+    using Utility;
     internal class Screen
     {
         private string _result;
-        private string _currBinaryOperator;
-        private bool _inValidOperation;
+        private string _binaryOperator;
+        private ValidType _validity;
         public string Result 
         { 
             get { return new UtilityFunctions().RoundFraction(_result); } 
             set { _result = value; }           
         }
-        public string CurrBinaryOperator
+        public string BinaryOperator
         {
-            get { return _currBinaryOperator; }
-            set { _currBinaryOperator = value; }
+            get { return _binaryOperator; }
+            set { _binaryOperator = value; }
         }
    
-        public bool InValidOperation
+        public ValidType Validity
         {
-            get { return _inValidOperation; }
-            set { _inValidOperation = value; }
+            get { return _validity; }
+            set { _validity = value; }
         }
     public Screen() 
         { 
-            Result = "0";
-            CurrBinaryOperator = string.Empty;
-            InValidOperation = false;
+            _result = "0";
+            _binaryOperator = null;
+            _validity = ValidType.VALID;
         }
-        public Screen(string result, string currBinaryOperator, bool inValidOperation)
+        public Screen(string result, string currBinaryOperator, ValidType invalidOperation)
         {
-            Result = result;
-            CurrBinaryOperator = currBinaryOperator;
-            InValidOperation = inValidOperation;
+            _result = result;
+            _binaryOperator = currBinaryOperator;
+            _validity = invalidOperation;
         }
     }
 }

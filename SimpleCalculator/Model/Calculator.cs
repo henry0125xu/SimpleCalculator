@@ -32,8 +32,8 @@ namespace SimpleCalculator.Model
         public CalculatorState()
         {
             _firstNumber = "0";
-            _binaryOperator = string.Empty;
-            _lastNumber = string.Empty;
+            _binaryOperator = null;
+            _lastNumber = null;
         }
         public CalculatorState(string firstNumber, string binaryOperator, string lastNumber)
         {
@@ -52,11 +52,11 @@ namespace SimpleCalculator.Model
         }
         public Calculator() 
         {
-            State = new CalculatorState();         
+            _state = new CalculatorState();         
         }
         public Calculator(CalculatorState state)
         {
-            State = state;
+            _state = state;
         }
     }
 }

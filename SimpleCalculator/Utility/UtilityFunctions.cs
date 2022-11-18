@@ -8,11 +8,14 @@ namespace SimpleCalculator.Utility
 {
     internal class UtilityFunctions
     {
+        private const int FractionLength = 10;
         public string RoundFraction(string target)
         {
-            if (target.Contains('.') && target.Length - target.IndexOf('.') > 10)
+            if (target == null) return null;
+
+            if (target.Contains('.') && target.Length - target.IndexOf('.') > FractionLength)
             {
-                return target.Substring(0, target.IndexOf(".") + 10);
+                return target.Substring(0, target.IndexOf(".") + FractionLength + 1);
             }
             else
             {
