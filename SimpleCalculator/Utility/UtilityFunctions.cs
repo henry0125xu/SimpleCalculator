@@ -8,6 +8,7 @@ namespace SimpleCalculator.Utility
 {
     internal class UtilityFunctions
     {
+        /* Reserve the first FractionLength fractions */
         private const int FractionLength = 10;
         public string RoundFraction(string target)
         {

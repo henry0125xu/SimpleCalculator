@@ -34,11 +34,11 @@ namespace SimpleCalculator.Model
             _binaryOperator = null;
             _validity = ValidType.VALID;
         }
-        public Screen(string result, string currBinaryOperator, ValidType invalidOperation)
+        public Screen(string result, string binaryOperator, ValidType validity)
         {
             _result = result;
-            _binaryOperator = currBinaryOperator;
-            _validity = invalidOperation;
+            _binaryOperator = binaryOperator;
+            _validity = validity;
         }
     }
 }

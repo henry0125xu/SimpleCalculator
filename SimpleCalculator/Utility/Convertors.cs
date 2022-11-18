@@ -13,21 +13,15 @@ namespace SimpleCalculator.Utility
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch ((ValidType)value)
-            {               
-                case ValidType.INFINITY:
-                    return "Infinity Error!";
-                case ValidType.OVERFLOW:
-                    return "Overflow Error!";
-                case ValidType.NAN:
-                    return "NaN Error!"; 
-                case ValidType.INVALID_OPERATION:
-                    return "Invalid Operation!";
-                case ValidType.EXCEPTION:
-                    return "An Exception Occurs!";
-                default:
-                    return string.Empty;
-            }
+            return (ValidType)value switch
+            {
+                ValidType.INFINITY => "Infinity Error!",
+                ValidType.OVERFLOW => "Overflow Error!",
+                ValidType.NAN => "NaN Error!",
+                ValidType.INVALID_OPERATION => "Invalid Operation!",
+                ValidType.EXCEPTION => "Some Exception Occurs!",
+                _ => string.Empty,
+            };
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -40,19 +34,14 @@ namespace SimpleCalculator.Utility
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch ((string)value)
+            return (string)value switch
             {
-                case "+":
-                    return (char)0x002B;
-                case "-":
-                    return (char)0x2212;
-                case "*":
-                    return (char)0x00D7;
-                case "/":
-                    return (char)0x00F7;
-                default:
-                    return string.Empty;
-            }
+                "+" => (char)0x002B,
+                "-" => (char)0x2212,
+                "*" => (char)0x00D7,
+                "/" => (char)0x00F7,
+                _ => string.Empty,
+            };
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
