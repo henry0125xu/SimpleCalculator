@@ -20,7 +20,7 @@
             <TextBlock Text="{Binding ScreenData.InValidOperation, Converter={StaticResource InValidOperationConvertor}}" Height="80" Width="240" Padding="20, 30, 0, 0" FontSize="20" FontFamily="Arial" Foreground="Red"/>
             <TextBlock Text="{Binding ScreenData.CurrBinaryOperator}" Height="80" Width="240" TextAlignment="Right" Padding="0, 30, 30, 0" FontSize="40" FontFamily="Arial"/> 
         </StackPanel>
-        <TextBlock Text="{Binding ScreenData.Result}" Height="100" TextAlignment="Right" Padding="0, 30, 20, 0" FontSize="50" FontFamily="Arial"/> 
+        <TextBlock Text="{Binding ScreenData.Result}" Height="100" TextAlignment="Right" Padding="0, 30, 20, 0" FontSize="40" FontFamily="Arial"/> 
 
 
         <Grid Height="380">

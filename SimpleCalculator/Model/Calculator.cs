@@ -6,22 +6,40 @@ using System.Threading.Tasks;
 
 namespace SimpleCalculator.Model
 {
+    using Utility;
     struct CalculatorState
     {
-        public string FirstNumber { get; set; }
-        public string LastNumber { get; set; }
-        public string BinaryOperator { get; set; }
+        private string _firstNumber;
+        private string _binaryOperator;
+        private string _lastNumber;
+        
+        public string FirstNumber
+        {
+            get { return new UtilityFunctions().RoundFraction(_firstNumber); }           
+            set { _firstNumber = value; }
+        }
+        public string BinaryOperator
+        {
+            get { return _binaryOperator; }
+            set { _binaryOperator = value; }
+        }
+        public string LastNumber
+        {
+            get { return new UtilityFunctions().RoundFraction(_lastNumber); }
+            set { _lastNumber = value; }
+        }
+        
         public CalculatorState()
         {
-            FirstNumber = "0";
-            BinaryOperator = string.Empty;
-            LastNumber = string.Empty;
+            _firstNumber = "0";
+            _binaryOperator = string.Empty;
+            _lastNumber = string.Empty;
         }
         public CalculatorState(string firstNumber, string binaryOperator, string lastNumber)
         {
-            FirstNumber = firstNumber;
-            BinaryOperator = binaryOperator;
-            LastNumber = lastNumber;     
+            _firstNumber = firstNumber;
+            _binaryOperator = binaryOperator;
+            _lastNumber = lastNumber;     
         }
     };
     internal class Calculator

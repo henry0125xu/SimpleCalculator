@@ -1,7 +1,7 @@
 ﻿SimpleCalculator
 1.0.0.0
 
-winexe
+exe
 C#
 .cs
 C:\Users\User\Desktop\Projects\SimpleCalculator\SimpleCalculator\obj\Debug\net6.0-windows\
@@ -12,7 +12,7 @@ TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\User\Desktop\Projects\SimpleCalculator\SimpleCalculator\App.xaml
 2-1569233156
 
-11-530309465
+12-1234771620
 194-2004305220
 View\Calculator.xaml;View\ResourceDictionary.xaml;
 

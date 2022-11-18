@@ -25,6 +25,9 @@ namespace SimpleCalculator.ViewModel
             set 
             { 
                 _screenData = value;
+
+                Console.WriteLine(_calculator.State.FirstNumber);
+
                 OnPropertyChanged(nameof(ScreenData));
             }
         } 
@@ -44,10 +47,10 @@ namespace SimpleCalculator.ViewModel
             ButtonCommand = new RelayCommand(new Action<object>(ButtonHandler));
         }
 
-        public void ButtonHandler(object buttonName)
+        public void ButtonHandler(object operation)
         {
-            string bn = buttonName.ToString();
-            switch (bn)
+            string op = operation.ToString();
+            switch (op)
             {
                 case "0":
                 case "1":                    
@@ -59,27 +62,27 @@ namespace SimpleCalculator.ViewModel
                 case "7":                    
                 case "8":              
                 case "9":
-                    _operandHandler(bn);
+                    _operandHandler(op);
                     break;
                 case "+":                   
                 case "-":                    
                 case "*":                   
                 case "/":
-                    _binaryOperatorHandler(bn);
+                    _binaryOperatorHandler(op);
                     break;
                 case "1/x":
                 case "sqrt":
                 case "square":
                 case "+/-":
                 case "%":
-                    _unaryOperatorHandler(bn);
+                    _unaryOperatorHandler(op);
                     break;
                 case "C":
                 case "CE":
                 case "=":
                 case ".":
                 case "Back":
-                    _functionalButtonHandler(bn);
+                    _functionalButtonHandler(op);
                     break;
             }
         }
@@ -100,9 +103,17 @@ namespace SimpleCalculator.ViewModel
                 {
                     newFirstNumber = _calculator.State.FirstNumber + op;
                 }
-                       
-                newState = new CalculatorState(newFirstNumber, _calculator.State.BinaryOperator, _calculator.State.LastNumber);
-                newScreenData = new Screen(newFirstNumber, _screenData.CurrBinaryOperator, false);
+
+                if(Convert.ToDouble(newFirstNumber) > 999999999999 || Convert.ToDouble(newFirstNumber) < -999999999999)
+                {
+                    newState = _calculator.State;
+                    newScreenData = new Screen(_screenData.Result, _screenData.CurrBinaryOperator, true);
+                }
+                else
+                {
+                    newState = new CalculatorState(newFirstNumber, _calculator.State.BinaryOperator, _calculator.State.LastNumber);
+                    newScreenData = new Screen(newFirstNumber, _screenData.CurrBinaryOperator, false);
+                }            
             }
             else 
             {
@@ -115,9 +126,20 @@ namespace SimpleCalculator.ViewModel
                 {
                     newLastNumber = _calculator.State.LastNumber + op;
                 }
-                newState = new CalculatorState(_calculator.State.FirstNumber, _calculator.State.BinaryOperator, newLastNumber);
-                newScreenData = new Screen(newLastNumber, _screenData.CurrBinaryOperator, false);
+
+                if (Convert.ToDouble(newLastNumber) > 999999999999 || Convert.ToDouble(newLastNumber) < -999999999999)
+                {
+                    newState = _calculator.State;
+                    newScreenData = new Screen(_screenData.Result, _screenData.CurrBinaryOperator, true);
+                }
+                else
+                {
+                    newState = new CalculatorState(_calculator.State.FirstNumber, _calculator.State.BinaryOperator, newLastNumber);
+                    newScreenData = new Screen(newLastNumber, _screenData.CurrBinaryOperator, false);
+                }
+                    
             }
+            
 
             Calculator newCalculator = new Calculator(newState);
             _calculator = newCalculator;
@@ -143,15 +165,29 @@ namespace SimpleCalculator.ViewModel
                         firstNumber = Math.Pow(firstNumber, 2);
                         break;
                     case "+/-":
-                        firstNumber *= -1;
+                        if (_calculator.State.FirstNumber != string.Empty && 
+                            _calculator.State.FirstNumber != "0") firstNumber *= -1;
+                        else firstNumber = 0;
                         break;
                     case "%":
                         firstNumber /= 100;
                         break;
                 }
-                string newFirstNumber = firstNumber.ToString();
-                newState = new CalculatorState(newFirstNumber, _calculator.State.BinaryOperator, _calculator.State.LastNumber);
-                newScreenData = new Screen(newFirstNumber, _screenData.CurrBinaryOperator, false);
+
+                if (Double.IsNaN(firstNumber) || 
+                    Double.IsInfinity(firstNumber) ||
+                    firstNumber > 999999999999 ||
+                    firstNumber < -999999999999) // something wrong
+                {
+                    newState = _calculator.State;
+                    newScreenData = new Screen(_screenData.Result, _screenData.CurrBinaryOperator, true);
+                }
+                else
+                {
+                    string newFirstNumber = firstNumber.ToString();
+                    newState = new CalculatorState(newFirstNumber, _calculator.State.BinaryOperator, _calculator.State.LastNumber);
+                    newScreenData = new Screen(newFirstNumber, _screenData.CurrBinaryOperator, false);
+                }                    
             }
             else if (_calculator.State.LastNumber != string.Empty)
             {
@@ -168,16 +204,30 @@ namespace SimpleCalculator.ViewModel
                         lastNumber = Math.Pow(lastNumber, 2);
                         break;
                     case "+/-":
-                        if (_calculator.State.LastNumber != "0") lastNumber *= -1;
+                        if (_calculator.State.LastNumber != string.Empty && 
+                            _calculator.State.LastNumber != "0") lastNumber *= -1;
                         else lastNumber = 0;
                         break;
                     case "%":
                         lastNumber /= 100;
                         break;
                 }
-                string newLastNumber = lastNumber.ToString();
-                newState = new CalculatorState(_calculator.State.FirstNumber, _calculator.State.BinaryOperator, newLastNumber);
-                newScreenData = new Screen(newLastNumber, _screenData.CurrBinaryOperator, false);
+
+                if (Double.IsNaN(lastNumber) || 
+                    Double.IsInfinity(lastNumber) ||
+                    lastNumber > 999999999999 ||
+                    lastNumber < -999999999999) // something wrong
+                {
+                    newState = _calculator.State;
+                    newScreenData = new Screen(_screenData.Result, _screenData.CurrBinaryOperator, true);
+                }
+                else
+                {
+                    string newLastNumber = lastNumber.ToString();
+                    newState = new CalculatorState(_calculator.State.FirstNumber, _calculator.State.BinaryOperator, newLastNumber);
+                    newScreenData = new Screen(newLastNumber, _screenData.CurrBinaryOperator, false);
+                }
+                    
             }
             else
             {
@@ -219,7 +269,10 @@ namespace SimpleCalculator.ViewModel
                 }
 
                 
-                if (Double.IsInfinity(res)) // dividing by 0
+                if (Double.IsNaN(res) || 
+                    Double.IsInfinity(res) || 
+                    res > 999999999999 || 
+                    res < -999999999999) // dividing by 0 or something wrong
                 {
                     newState = _calculator.State;
                     newScreenData = new Screen(_screenData.Result, _screenData.CurrBinaryOperator, true);
@@ -264,21 +317,29 @@ namespace SimpleCalculator.ViewModel
                 #endregion
                 #region "=" Handler
                 case "=":
-                    _binaryOperatorHandler(string.Empty);
-                    return;
+                    if(_calculator.State.BinaryOperator != string.Empty && _calculator.State.LastNumber == string.Empty)
+                    {
+                        newState = _calculator.State;
+                        newScreenData = new Screen(_screenData.Result, _screenData.CurrBinaryOperator, true);
+                    }
+                    else
+                    {
+                        _binaryOperatorHandler(string.Empty);
+                        return;
+                    }
+                    break;
                 #endregion
                 #region "." Handler
                 case ".":
                     if (_calculator.State.BinaryOperator == string.Empty 
-                        && _calculator.State.LastNumber == string.Empty
-                        && _calculator.State.FirstNumber[_calculator.State.FirstNumber.Length - 1] != '.')
+                        && !_calculator.State.FirstNumber.Contains('.'))
                     {
                         string newFirstNumber = _calculator.State.FirstNumber + ".";
                         newState = new CalculatorState(newFirstNumber, _calculator.State.BinaryOperator, _calculator.State.LastNumber);
                         newScreenData = new Screen(newFirstNumber, _screenData.CurrBinaryOperator, false);
                     }
                     else if(_calculator.State.LastNumber != string.Empty
-                        && _calculator.State.LastNumber[_calculator.State.LastNumber.Length - 1] != '.')
+                        && !_calculator.State.LastNumber.Contains('.'))
                     {
                         string newLastNumber = _calculator.State.LastNumber + ".";
                         newState = new CalculatorState(_calculator.State.FirstNumber, _calculator.State.BinaryOperator, newLastNumber);
@@ -309,10 +370,10 @@ namespace SimpleCalculator.ViewModel
                     }
                     else
                     {
-                        if (_calculator.State.FirstNumber.Length <= 1)
+                        if (_calculator.State.LastNumber.Length <= 1)
                         {
-                            newState = new CalculatorState(_calculator.State.FirstNumber, _calculator.State.BinaryOperator, string.Empty);
-                            newScreenData = new Screen(string.Empty, _screenData.CurrBinaryOperator, false);
+                            newState = new CalculatorState(_calculator.State.FirstNumber, _calculator.State.BinaryOperator, "0");
+                            newScreenData = new Screen("0", _screenData.CurrBinaryOperator, false);
                         }
                         else
                         {
@@ -327,6 +388,44 @@ namespace SimpleCalculator.ViewModel
 
             Calculator newCalculator = new Calculator(newState);
             _calculator = newCalculator;
+            ScreenData = newScreenData;
+        }
+        
+        private void _updateCalculator(bool ufn, bool ubo, bool uln, string fn, string bn, string ln) 
+        {           
+            string newFirstNumber;
+            string newBinaryOperator;
+            string newLastNumber;
+
+            if (ufn) newFirstNumber = fn;
+            else newFirstNumber = _calculator.State.FirstNumber;
+
+            if (ubo) newBinaryOperator = bn;
+            else newBinaryOperator = _calculator.State.BinaryOperator;
+
+            if (uln) newLastNumber = ln;
+            else newLastNumber= _calculator.State.LastNumber;
+
+            CalculatorState newState = new CalculatorState(newFirstNumber, newBinaryOperator, newLastNumber);
+            Calculator newCalculator = new Calculator(newState);
+            _calculator = newCalculator;           
+        }
+        private void _updateScreenData(bool urs, bool ucbo, bool uivo, string rs, string cbo, bool ivo) 
+        {
+            string newResult;
+            string newCurrBinaryOperator;
+            bool newInValidOperation;
+
+            if (urs) newResult = rs;
+            else newResult = _screenData.Result;
+
+            if (ucbo) newCurrBinaryOperator = cbo;
+            else newCurrBinaryOperator = _screenData.CurrBinaryOperator;
+
+            if(uivo) newInValidOperation = ivo;
+            else newInValidOperation = _screenData.InValidOperation;
+
+            Screen newScreenData = new Screen(newResult, newCurrBinaryOperator, newInValidOperation);
             ScreenData = newScreenData;
         }
     }
