@@ -14,7 +14,7 @@ namespace SimpleCalculator.Model
         private ValidityType _validity;
         public string Result 
         { 
-            get { return uf.ScientificNotation(uf.RoundDownFraction(_result)); } 
+            get { return uf.SetScientificNotation(uf.RoundDownFraction(_result)); } 
             set { _result = value; }           
         }
         public string BinaryOperator

@@ -470,7 +470,7 @@ namespace SimpleCalculator.ViewModel
             UpdateScreenData(false, false, true, null, null, validityType);
         }
 
-        private ValidityType ValidityType_(double num)
+        private static ValidityType ValidityType_(double num)
         {
             if (Double.IsNaN(num)) return ValidityType.NAN;           
             else if (num > Double.MaxValue || num < Double.MinValue) return ValidityType.OVERFLOW;                   

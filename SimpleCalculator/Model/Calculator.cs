@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SimpleCalculator.Model
 {
     using uf = Utility.UtilityFunctions;
-    struct CalculatorState
+    struct CalculatorState //*****class vs struct in C#
     {
         private string _firstNumber;
         private string _binaryOperator;
@@ -15,7 +15,7 @@ namespace SimpleCalculator.Model
         
         public string FirstNumber
         {
-            get { return uf.ScientificNotation(uf.RoundDownFraction(_firstNumber)); }           
+            get { return uf.SetScientificNotation(uf.RoundDownFraction(_firstNumber)); }           
             set { _firstNumber = value; }
         }
         public string BinaryOperator
@@ -25,7 +25,7 @@ namespace SimpleCalculator.Model
         }
         public string LastNumber
         {
-            get { return uf.ScientificNotation(uf.RoundDownFraction(_lastNumber)); }
+            get { return uf.SetScientificNotation(uf.RoundDownFraction(_lastNumber)); }
             set { _lastNumber = value; }
         }
         

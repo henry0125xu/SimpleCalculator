@@ -21,7 +21,7 @@ namespace SimpleCalculator.Utility
             /* Is floating point */
             if (target.Contains('.') && target.Length - target.IndexOf('.') > FractionLength)
             {
-                return target.Substring(0, target.IndexOf(".") + FractionLength + 1);
+                return target[..(target.IndexOf(".") + FractionLength + 1)];
             }
             else
             {
@@ -29,7 +29,7 @@ namespace SimpleCalculator.Utility
             }         
         }
 
-        public static string ScientificNotation(string target)
+        public static string SetScientificNotation(string target)
         {
             if (target == null) return null;
 
