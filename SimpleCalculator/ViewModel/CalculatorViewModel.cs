@@ -427,7 +427,7 @@ namespace SimpleCalculator.ViewModel
         }
         
         /* The following are some helper functions */
-        private void UpdateCalculator(bool ufn, bool ubo, bool uln, string fn, string bn, string ln) 
+        private void UpdateCalculator(bool ufn, bool ubo, bool uln, string fn, string bo, string ln) 
         {           
             string newFirstNumber;
             string newBinaryOperator;
@@ -436,7 +436,7 @@ namespace SimpleCalculator.ViewModel
             if (ufn) newFirstNumber = fn;
             else newFirstNumber = _calculator.State.FirstNumber;
 
-            if (ubo) newBinaryOperator = bn;
+            if (ubo) newBinaryOperator = bo;
             else newBinaryOperator = _calculator.State.BinaryOperator;
 
             if (uln) newLastNumber = ln;
@@ -446,7 +446,7 @@ namespace SimpleCalculator.ViewModel
             Calculator newCalculator = new(newState);
             _calculator = newCalculator;           
         }
-        private void UpdateScreenData(bool urs, bool ucbo, bool uvd, string rs, string cbo, ValidityType vd) 
+        private void UpdateScreenData(bool urs, bool ubo, bool uvd, string rs, string bo, ValidityType vd) 
         {
             string newResult;
             string newBinaryOperator;
@@ -455,7 +455,7 @@ namespace SimpleCalculator.ViewModel
             if (urs) newResult = rs;
             else newResult = _screenData.Result;
 
-            if (ucbo) newBinaryOperator = cbo;
+            if (ubo) newBinaryOperator = bo;
             else newBinaryOperator = _screenData.BinaryOperator;
 
             if(uvd) newValidity = vd;
