@@ -13,23 +13,24 @@ namespace SimpleCalculator.Utility
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (ValidType)value switch
-            {
-                ValidType.INFINITY => "Infinity Error!",
-                ValidType.OVERFLOW => "Overflow Error!",
-                ValidType.NAN => "NaN Error!",
-                ValidType.INVALID_OPERATION => "Invalid Operation!",
-                ValidType.EXCEPTION => "Some Exception Occurs!",
+            return (ValidityType)value switch
+            {               
+                ValidityType.DIVIDE_BY_ZERO => "Cannot Divide by 0!",
+                ValidityType.OVERFLOW => "Overflow!",
+                ValidityType.NAN => "NaN Error!",
+                ValidityType.INVALID_OPERATION => "Invalid Operation!",
+                ValidityType.EXCEPTION => "Some Exception Occurs!",
                 _ => string.Empty,
             };
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Empty;
+            return null;
         }
 
     }
 
+    /* Change display font style */
     internal class OperatorConvertor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -45,9 +46,25 @@ namespace SimpleCalculator.Utility
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Empty;
+            return null;
+        }
+    }
+
+    /* Font size depends on Result.Length */
+    internal class FontSizeConvertor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((int)value < 15) return 50;
+            else if ((int)value < 20) return 40;
+            else if ((int)value < 25) return 30;
+            else if ((int)value < 30) return 25;
+            else return 20;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
         }
 
     }
-
 }

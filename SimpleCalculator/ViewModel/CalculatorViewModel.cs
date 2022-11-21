@@ -17,9 +17,7 @@ namespace SimpleCalculator.ViewModel
     {
         private Calculator _calculator;     
         private Screen _screenData;
-
-        private ICommand _buttonCommand;
-
+        
         public Screen ScreenData
         {
             get { return _screenData; }
@@ -31,7 +29,9 @@ namespace SimpleCalculator.ViewModel
 
                 OnPropertyChanged(nameof(ScreenData));
             }
-        } 
+        }
+
+        private ICommand _buttonCommand;
         public ICommand ButtonCommand
         {
             get { return _buttonCommand; }
@@ -51,7 +51,7 @@ namespace SimpleCalculator.ViewModel
         public void ButtonHandler(object operation)
         {
             try
-            {
+            {               
                 string op = operation.ToString();
                 switch (op)
                 {
@@ -77,7 +77,7 @@ namespace SimpleCalculator.ViewModel
                     case "sqrt":
                     case "square":
                     case "+/-":
-                    case "%":
+                    case "%":                       
                         UnaryOperatorHandler(op);
                         break;
                     case "C":
@@ -94,18 +94,19 @@ namespace SimpleCalculator.ViewModel
                 Console.WriteLine(ex.ToString());
 
                 FunctionalButtonHandler("C");
-                SetInvalidOperation(ValidType.EXCEPTION);
+                SetInvalid(ValidityType.EXCEPTION);
             }                     
         }
 
-        /* The following are classified handlers */
+        /* The following are button handlers */
+
         private void OperandHandler(string op) 
         {
             /* Currently handling the first number */
             if (_calculator.State.BinaryOperator == null && _calculator.State.LastNumber == null)  
             {
                 string newFirstNumber;
-                /* The first number = 0 */
+                /* The first number == 0 */
                 if (_calculator.State.FirstNumber == null || _calculator.State.FirstNumber == "0")
                 {
                     newFirstNumber = op;
@@ -117,21 +118,22 @@ namespace SimpleCalculator.ViewModel
                 }
 
                 /* Check the validity */
-                if (ValidType_(Convert.ToDouble(newFirstNumber)) != ValidType.VALID)
+                if (ValidityType_(Convert.ToDouble(newFirstNumber)) != ValidityType.VALID)
                 {
-                    SetInvalidOperation(ValidType_(Convert.ToDouble(newFirstNumber)));
+                    SetInvalid(ValidityType_(Convert.ToDouble(newFirstNumber)));
                 }
+                /* Valid => Update the state */
                 else
                 {
                     UpdateCalculator(true, false, false, newFirstNumber, null, null);
-                    UpdateScreenData(true, false, true, newFirstNumber, null, ValidType.VALID);                    
+                    UpdateScreenData(true, false, true, newFirstNumber, null, ValidityType.VALID);                    
                 }            
             }
             /* Currently handling the last number */
             else
             {
                 string newLastNumber;
-                /* The last number = 0 */
+                /* The last number == 0 */
                 if (_calculator.State.LastNumber == null || _calculator.State.LastNumber == "0")
                 {
                     newLastNumber = op;
@@ -144,14 +146,15 @@ namespace SimpleCalculator.ViewModel
 
 
                 /* Check the validity */
-                if (ValidType_(Convert.ToDouble(newLastNumber)) != ValidType.VALID)
+                if (ValidityType_(Convert.ToDouble(newLastNumber)) != ValidityType.VALID)
                 {
-                    SetInvalidOperation(ValidType_(Convert.ToDouble(newLastNumber)));
+                    SetInvalid(ValidityType_(Convert.ToDouble(newLastNumber)));
                 }
+                /* Valid => Update the state */
                 else
                 {
                     UpdateCalculator(false, false, true, null, null, newLastNumber);
-                    UpdateScreenData(true, false, true, newLastNumber, null, ValidType.VALID);
+                    UpdateScreenData(true, false, true, newLastNumber, null, ValidityType.VALID);
                 }
                     
             }
@@ -185,15 +188,16 @@ namespace SimpleCalculator.ViewModel
 
 
                 /* Check the validity */
-                if (ValidType_(firstNumber) != ValidType.VALID) 
+                if (ValidityType_(firstNumber) != ValidityType.VALID) 
                 {
-                    SetInvalidOperation(ValidType_(firstNumber));
+                    SetInvalid(ValidityType_(firstNumber));
                 }
+                /* Valid => Update the state */
                 else
                 {
                     string newFirstNumber = firstNumber.ToString();
                     UpdateCalculator(true, false, false, newFirstNumber, null, null);
-                    UpdateScreenData(true, false, true, newFirstNumber, null, ValidType.VALID);
+                    UpdateScreenData(true, false, true, newFirstNumber, null, ValidityType.VALID);
                 }                    
             }
             /* Currently handling the last number */
@@ -223,21 +227,22 @@ namespace SimpleCalculator.ViewModel
 
 
                 /* Check the validity */
-                if (ValidType_(lastNumber) != ValidType.VALID) 
-                {
-                    SetInvalidOperation(ValidType_(lastNumber));
+                if (ValidityType_(lastNumber) != ValidityType.VALID) 
+                {   
+                    SetInvalid(ValidityType_(lastNumber));
                 }
+                /* Valid => Update the state */
                 else
                 {
                     string newLastNumber = lastNumber.ToString();
                     UpdateCalculator(false, false, true, null, null, newLastNumber);
-                    UpdateScreenData(true, false, true, newLastNumber, null, ValidType.VALID);
+                    UpdateScreenData(true, false, true, newLastNumber, null, ValidityType.VALID);
                 }                   
             }
             /* Currently existing a binary operator  */
             else
             {
-                SetInvalidOperation(ValidType.INVALID_OPERATION);
+                SetInvalid(ValidityType.INVALID_OPERATION);
             }
         }
         private void BinaryOperatorHandler(string op) 
@@ -246,11 +251,19 @@ namespace SimpleCalculator.ViewModel
             if (_calculator.State.LastNumber == null)
             {
                 UpdateCalculator(false, true, false, null, op, null);
-                UpdateScreenData(false, true, false, null, op, ValidType.VALID);
+                UpdateScreenData(false, true, false, null, op, ValidityType.VALID);
             }
             /* The last number currently exist, calculate the current expression */
             else
             {
+                /* Divide by 0 */
+                if (_calculator.State.BinaryOperator == "/" && _calculator.State.LastNumber == "0") 
+                {
+                    SetInvalid(ValidityType.DIVIDE_BY_ZERO);
+                    return;
+                }
+                
+                
                 double res = new();
                 switch (_calculator.State.BinaryOperator)
                 {
@@ -270,15 +283,16 @@ namespace SimpleCalculator.ViewModel
 
 
                 /* Check the validity */
-                if (ValidType_(res) != ValidType.VALID) // something wrong
+                if (ValidityType_(res) != ValidityType.VALID) // something wrong
                 {
-                    SetInvalidOperation(ValidType_(res));
+                    SetInvalid(ValidityType_(res));
                 }
+                /* Valid => Update the state */
                 else
                 {
                     string newFirstNumber = res.ToString();
                     UpdateCalculator(true, true, true, newFirstNumber, op, null);
-                    UpdateScreenData(true, true, true, newFirstNumber, op, ValidType.VALID);
+                    UpdateScreenData(true, true, true, newFirstNumber, op, ValidityType.VALID);
                 }               
             }
         }
@@ -290,7 +304,7 @@ namespace SimpleCalculator.ViewModel
                 /* Clear all */
                 case "C":
                     UpdateCalculator(true, true, true, "0", null, null);
-                    UpdateScreenData(true, true, true, "0", null, ValidType.VALID);
+                    UpdateScreenData(true, true, true, "0", null, ValidityType.VALID);
                     break;
                 #endregion
                 #region "CE" Handler
@@ -300,13 +314,13 @@ namespace SimpleCalculator.ViewModel
                     if (_calculator.State.BinaryOperator != null && _calculator.State.LastNumber == null)
                     {
                         UpdateCalculator(false, true, true, null, null, null);
-                        UpdateScreenData(false, true, true, null, null, ValidType.VALID);
+                        UpdateScreenData(false, true, true, null, null, ValidityType.VALID);
                     }
                     /* Currently handling the last number */
                     else if (_calculator.State.LastNumber != null)
                     {
                         UpdateCalculator(false, false, true, null, null, null);
-                        UpdateScreenData(true, false, true, null, null, ValidType.VALID);                       
+                        UpdateScreenData(true, false, true, null, null, ValidityType.VALID);                       
                     }
                     break;
                 #endregion
@@ -316,7 +330,7 @@ namespace SimpleCalculator.ViewModel
                     /* The last number does not currently exist */
                     if (_calculator.State.BinaryOperator != null && _calculator.State.LastNumber == null)
                     {
-                        SetInvalidOperation(ValidType.INVALID_OPERATION);
+                        SetInvalid(ValidityType.INVALID_OPERATION);
                     }
                     else
                     {
@@ -335,7 +349,7 @@ namespace SimpleCalculator.ViewModel
                     {
                         string newFirstNumber = _calculator.State.FirstNumber + ".";
                         UpdateCalculator(true, false, false, newFirstNumber, null, null);
-                        UpdateScreenData(true, false, true, newFirstNumber, null, ValidType.VALID);
+                        UpdateScreenData(true, false, true, newFirstNumber, null, ValidityType.VALID);
                     }
                     /* Currently handling the last number and decimal point does not exist  */
                     else if (_calculator.State.LastNumber != null
@@ -343,12 +357,12 @@ namespace SimpleCalculator.ViewModel
                     {
                         string newLastNumber = _calculator.State.LastNumber + ".";
                         UpdateCalculator(false, false, true, null, null, newLastNumber);
-                        UpdateScreenData(true, false, true, newLastNumber, null, ValidType.VALID);
+                        UpdateScreenData(true, false, true, newLastNumber, null, ValidityType.VALID);
                     }
                     /* Other cases are all invalid */
                     else
                     {
-                        SetInvalidOperation(ValidType.INVALID_OPERATION);
+                        SetInvalid(ValidityType.INVALID_OPERATION);
                     }
                     break;
                 #endregion
@@ -361,7 +375,7 @@ namespace SimpleCalculator.ViewModel
                         if(_calculator.State.FirstNumber.Length <= 1)
                         {
                             UpdateCalculator(true, false, false, "0", null, null);
-                            UpdateScreenData(true, false, true, "0", null, ValidType.VALID);
+                            UpdateScreenData(true, false, true, "0", null, ValidityType.VALID);
                         }
                         else
                         {
@@ -369,12 +383,12 @@ namespace SimpleCalculator.ViewModel
                             if(newFirstNumber == "-")
                             {
                                 UpdateCalculator(true, false, false, "0", null, null);
-                                UpdateScreenData(true, false, true, "0", null, ValidType.VALID);
+                                UpdateScreenData(true, false, true, "0", null, ValidityType.VALID);
                             }
                             else
                             {
                                 UpdateCalculator(true, false, false, newFirstNumber, null, null);
-                                UpdateScreenData(true, false, true, newFirstNumber, null, ValidType.VALID);
+                                UpdateScreenData(true, false, true, newFirstNumber, null, ValidityType.VALID);
                             }                           
                         } 
                     }
@@ -382,7 +396,7 @@ namespace SimpleCalculator.ViewModel
                     else if (_calculator.State.BinaryOperator != null && _calculator.State.LastNumber == null)
                     {
                         UpdateCalculator(false, true, false, null, null, null);
-                        UpdateScreenData(false, true, true, null, null, ValidType.VALID);                  
+                        UpdateScreenData(false, true, true, null, null, ValidityType.VALID);                  
                     }
                     /* Currently handling the last number */
                     else
@@ -390,7 +404,7 @@ namespace SimpleCalculator.ViewModel
                         if (_calculator.State.LastNumber.Length <= 1)
                         {
                             UpdateCalculator(false, false, true, null, null, "0");
-                            UpdateScreenData(true, false, true, "0", null, ValidType.VALID);
+                            UpdateScreenData(true, false, true, "0", null, ValidityType.VALID);
                         }
                         else
                         {
@@ -398,12 +412,12 @@ namespace SimpleCalculator.ViewModel
                             if(newLastNumber == "-")
                             {
                                 UpdateCalculator(false, false, true, null, null, "0");
-                                UpdateScreenData(true, false, true, "0", null, ValidType.VALID);
+                                UpdateScreenData(true, false, true, "0", null, ValidityType.VALID);
                             }
                             else
                             {
                                 UpdateCalculator(false, false, true, null, null, newLastNumber);
-                                UpdateScreenData(true, false, true, newLastNumber, null, ValidType.VALID);
+                                UpdateScreenData(true, false, true, newLastNumber, null, ValidityType.VALID);
                             }                           
                         }
                     }
@@ -432,37 +446,35 @@ namespace SimpleCalculator.ViewModel
             Calculator newCalculator = new(newState);
             _calculator = newCalculator;           
         }
-        private void UpdateScreenData(bool urs, bool ucbo, bool uvd, string rs, string cbo, ValidType vd) 
+        private void UpdateScreenData(bool urs, bool ucbo, bool uvd, string rs, string cbo, ValidityType vd) 
         {
             string newResult;
-            string newCurrBinaryOperator;
-            ValidType newValidity;
+            string newBinaryOperator;
+            ValidityType newValidity;
 
             if (urs) newResult = rs;
             else newResult = _screenData.Result;
 
-            if (ucbo) newCurrBinaryOperator = cbo;
-            else newCurrBinaryOperator = _screenData.BinaryOperator;
+            if (ucbo) newBinaryOperator = cbo;
+            else newBinaryOperator = _screenData.BinaryOperator;
 
             if(uvd) newValidity = vd;
             else newValidity = _screenData.Validity;
 
-            Screen newScreenData = new(newResult, newCurrBinaryOperator, newValidity);
+            Screen newScreenData = new(newResult, newBinaryOperator, newValidity);
             ScreenData = newScreenData;
         }
 
-        private void SetInvalidOperation(ValidType validType)
+        private void SetInvalid(ValidityType validityType)
         {
-            UpdateScreenData(false, false, true, null, null, validType);
+            UpdateScreenData(false, false, true, null, null, validityType);
         }
 
-        private static ValidType ValidType_(double num)
+        private ValidityType ValidityType_(double num)
         {
-            if (Double.IsNaN(num)) return ValidType.NAN;
-            if (Double.IsInfinity(num)) return ValidType.INFINITY;
-            if (num > 99999999999999 || num < -99999999999999) return ValidType.OVERFLOW;
-
-            return ValidType.VALID;
+            if (Double.IsNaN(num)) return ValidityType.NAN;           
+            else if (num > Double.MaxValue || num < Double.MinValue) return ValidityType.OVERFLOW;                   
+            else return ValidityType.VALID;
         }
     }
 }

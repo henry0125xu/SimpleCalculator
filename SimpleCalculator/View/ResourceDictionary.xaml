@@ -33,5 +33,6 @@
 
     <utility:ValidityConvertor x:Key="ValidityConvertor"/>
     <utility:OperatorConvertor x:Key="OperatorConvertor"/>
+    <utility:FontSizeConvertor x:Key="FontSizeConvertor"/>
 
 </ResourceDictionary>

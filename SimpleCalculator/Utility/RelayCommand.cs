@@ -22,14 +22,7 @@ namespace SimpleCalculator.Utility
         public event EventHandler CanExecuteChanged;
         public void Execute(object parameter)
         {
-            if(parameter != null)
-            {
-                _execute(parameter);
-            }
-            else
-            {
-                _execute("Hello");
-            }
+            _execute(parameter);
         }   
     }
 }

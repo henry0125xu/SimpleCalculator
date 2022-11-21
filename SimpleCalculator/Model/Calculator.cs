@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleCalculator.Model
 {
-    using Utility;
+    using uf = Utility.UtilityFunctions;
     struct CalculatorState
     {
         private string _firstNumber;
@@ -15,7 +15,7 @@ namespace SimpleCalculator.Model
         
         public string FirstNumber
         {
-            get { return new UtilityFunctions().RoundFraction(_firstNumber); }           
+            get { return uf.ScientificNotation(uf.RoundDownFraction(_firstNumber)); }           
             set { _firstNumber = value; }
         }
         public string BinaryOperator
@@ -25,7 +25,7 @@ namespace SimpleCalculator.Model
         }
         public string LastNumber
         {
-            get { return new UtilityFunctions().RoundFraction(_lastNumber); }
+            get { return uf.ScientificNotation(uf.RoundDownFraction(_lastNumber)); }
             set { _lastNumber = value; }
         }
         

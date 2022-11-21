@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleCalculator.Model
-{
-    using Utility;
+{    
+    using uf = Utility.UtilityFunctions;
     internal class Screen
     {
         private string _result;
         private string _binaryOperator;
-        private ValidType _validity;
+        private ValidityType _validity;
         public string Result 
         { 
-            get { return new UtilityFunctions().RoundFraction(_result); } 
+            get { return uf.ScientificNotation(uf.RoundDownFraction(_result)); } 
             set { _result = value; }           
         }
         public string BinaryOperator
@@ -23,7 +23,7 @@ namespace SimpleCalculator.Model
             set { _binaryOperator = value; }
         }
    
-        public ValidType Validity
+        public ValidityType Validity
         {
             get { return _validity; }
             set { _validity = value; }
@@ -32,9 +32,9 @@ namespace SimpleCalculator.Model
         { 
             _result = "0";
             _binaryOperator = null;
-            _validity = ValidType.VALID;
+            _validity = ValidityType.VALID;
         }
-        public Screen(string result, string binaryOperator, ValidType validity)
+        public Screen(string result, string binaryOperator, ValidityType validity)
         {
             _result = result;
             _binaryOperator = binaryOperator;
